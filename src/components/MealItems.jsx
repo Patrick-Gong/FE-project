@@ -12,12 +12,14 @@ export default function MealItems({ onAdd }) {
         throw new Error('Failed to fetch places');
       }
 
+      for (let i in resData) {
+        resData[i].quantity = 1;
+      }
+
       setFetchedItems(resData);
     }
     fetchMeals();
   }, []);
-
-  console.log(fetchedItems);
 
   return (
     <ul id="meals">

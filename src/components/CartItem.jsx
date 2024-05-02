@@ -1,27 +1,14 @@
 import { useState } from 'react';
 
-export default function CartItem({ item, onSum }) {
-  const [amount, setAmount] = useState(1);
-
-  function handleMinusAmount() {
-    if (amount > 1) {
-      setAmount((prev) => prev - 1);
-      onSum(-item.price);
-    }
-  }
-
-  function handlePlusAmount() {
-    setAmount((prev) => prev + 1);
-    onSum(+item.price);
-  }
+export default function CartItem({ item, onTransmute }) {
 
   return (
     <li className="cart-item" id={item.id}>
-      <p>{`${item.name} - ${amount} x $${item.price}`}</p>
+      <p>{`${item.name} - ${item.quantity} x $${item.price}`}</p>
       <div className="cart-item-actions">
-        <button onClick={handleMinusAmount}>-</button>
-        {amount}
-        <button onClick={handlePlusAmount}>+</button>
+        <button onClick={() => onTransmute(item, -1)}>-</button>
+        {item.quantity}
+        <button onClick={() => onTransmute(item, +1)}>+</button>
       </div>
     </li>
   );

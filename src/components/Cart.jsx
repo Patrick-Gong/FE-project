@@ -1,35 +1,21 @@
-import { useState, useEffect } from 'react';
 import CartItem from './CartItem';
 
-function Cart({ cartItems, onClose, onOpen }) {
-  let sum = 0;
-  for (let item in cartItems) {
-    sum = sum + Number(cartItems[item].price);
-  }
-  const initialValue = sum;
-  console.log(initialValue);
-
-  const [totalPrice, setTotalPrice] = useState(initialValue);
-
-  useEffect(() => {
-    setTotalPrice(initialValue);
-  }, [cartItems, initialValue]);
-
-  console.log(totalPrice);
-
-  function handleUpdateTotalPrice(totalPriceChange) {
-    setTotalPrice((prevTotalPrice) => prevTotalPrice + totalPriceChange);
-  }
+function Cart({ cartItems, onClose, onOpen, onTransmute }) {
+  const totalPrice = cartItems.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
+  const formattedTotalPrice = `$${totalPrice.toFixed(2)}`;
 
   return (
     <div className="cart">
       <h2>Your Cart</h2>
       <ul>
         {cartItems.map((item) => (
-          <CartItem item={item} key={item.id} onSum={handleUpdateTotalPrice} />
+          <CartItem item={item} key={item.id} onTransmute={onTransmute}/>
         ))}
       </ul>
-      <p className="cart-total">$ {totalPrice}</p>
+      <p className="cart-total">{formattedTotalPrice}</p>
       <div className="modal-actions">
         <button className="text-button" onClick={onClose}>
           Close

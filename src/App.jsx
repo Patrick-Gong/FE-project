@@ -12,7 +12,27 @@ function App() {
   const [isCartChecked, setIsCartChecked] = useState(false);
 
   function handleAddToCart(newMeal) {
-    setCartItems((prevItems) => [...prevItems, newMeal]);
+    const existingCartItemIndex = cartItems.findIndex(
+      (cartItem) => newMeal.id === cartItem.id
+    );
+    console.log(existingCartItemIndex);
+    if (existingCartItemIndex >= 0) {
+      cartItems[existingCartItemIndex].quantity++;
+    } else {
+      setCartItems((prevItems) => [...prevItems, newMeal]);
+    }
+  }
+
+  function handleUpdateItemQuantity(targetItem, acc) {
+    const updatedCartItems = cartItems.map((cartItem) => {
+      if (cartItem.id === targetItem.id) {
+        const updatedQuantity = Math.max(cartItem.quantity + acc, 1); // Ensure quantity is at least 1
+        return { ...cartItem, quantity: updatedQuantity };
+      }
+      return cartItem;
+    });
+
+    setCartItems(updatedCartItems);
   }
 
   function handleClickCart() {
@@ -35,9 +55,10 @@ function App() {
             cartItems={cartItems}
             onClose={handleCloseModal}
             onOpen={handleOpenForm}
+            onTransmute={handleUpdateItemQuantity}
           />
         ) : (
-          <Form onClose={handleCloseModal} cartItems={cartItems}/>
+          <Form onClose={handleCloseModal} cartItems={cartItems} />
         )}
       </Modal>
 
