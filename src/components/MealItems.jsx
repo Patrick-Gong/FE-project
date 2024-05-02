@@ -1,6 +1,10 @@
+import { useContext } from 'react';
 import { useState, useEffect } from 'react';
+import { CartContext } from '../store/CartCtx';
 
-export default function MealItems({ onAdd }) {
+export default function MealItems() {
+  const {addToCart} = useContext(CartContext);
+  
   const [fetchedItems, setFetchedItems] = useState([]);
 
   useEffect(() => {
@@ -36,7 +40,7 @@ export default function MealItems({ onAdd }) {
               <p className="meal-item-description">{meal.description}</p>
             </div>
             <p className="meal-item-actions">
-              <button className="button" onClick={() => onAdd(meal)}>
+              <button className="button" onClick={() => addToCart(meal)}>
                 Add to Cart
               </button>
             </p>

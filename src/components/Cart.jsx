@@ -1,6 +1,11 @@
+import { CartContext } from '../store/CartCtx';
 import CartItem from './CartItem';
 
-function Cart({ cartItems, onClose, onOpen, onTransmute }) {
+import { useContext } from 'react';
+
+function Cart({ onClose, onOpen }) {
+  const {cartItems} = useContext(CartContext);
+  
   const totalPrice = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
@@ -12,7 +17,7 @@ function Cart({ cartItems, onClose, onOpen, onTransmute }) {
       <h2>Your Cart</h2>
       <ul>
         {cartItems.map((item) => (
-          <CartItem item={item} key={item.id} onTransmute={onTransmute}/>
+          <CartItem item={item} key={item.id}/>
         ))}
       </ul>
       <p className="cart-total">{formattedTotalPrice}</p>

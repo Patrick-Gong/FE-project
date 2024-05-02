@@ -1,6 +1,9 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { CartContext } from '../store/CartCtx';
 
-function Form({ onClose, cartItems }) {
+function Form({ onClose }) {
+const {cartItems} = useContext(CartContext);
+
   const [isSuccess, setIsSuccess] = useState(false);
 
   async function handleSubmit(event) {

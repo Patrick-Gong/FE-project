@@ -1,6 +1,10 @@
+import { useContext } from 'react';
 import logoImg from '../assets/logo.jpg';
+import { CartContext } from '../store/CartCtx';
 
-export default function Header({ cartItems, onClick }) {
+export default function Header({ onClick }) {
+  const { cartItems } = useContext(CartContext);
+
   return (
     <header id="main-header">
       <div id="title">
