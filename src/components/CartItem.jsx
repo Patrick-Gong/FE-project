@@ -1,18 +1,22 @@
-import { useContext, useState } from 'react';
-import { CartContext } from '../store/CartCtx';
+import { currencyFormatter } from '../util/formatting';
 
-export default function CartItem({item}) {
-
-  const {updateQuantity} = useContext(CartContext);
-
+export default function CartItem({
+  name,
+  quantity,
+  price,
+  onIncrease,
+  onDecrease,
+}) {
   return (
-    <li className="cart-item" id={item.id}>
-      <p>{`${item.name} - ${item.quantity} x $${item.price}`}</p>
-      <div className="cart-item-actions">
-        <button onClick={() => updateQuantity(item, -1)}>-</button>
-        {item.quantity}
-        <button onClick={() => updateQuantity(item, +1)}>+</button>
-      </div>
+    <li className="cart-item">
+      <p>
+        {name} - {quantity} x {currencyFormatter.format(price)}
+      </p>
+      <p className="cart-item-actions">
+        <button onClick={onDecrease}>-</button>
+        <span>{quantity}</span>
+        <button onClick={onIncrease}>+</button>
+      </p>
     </li>
   );
 }
